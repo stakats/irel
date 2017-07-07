@@ -6,7 +6,7 @@ This code allows you to download digitized documents directly from the Archives 
   * required packages: backoff, requests, bs4
 * ImageMagick
 
-Python 3 and ImageMagick can be installed via homebrew. Then use `pip3` to install the backoff, requests, and bs4 modules.
+Mac users can install Python 3 and ImageMagick via homebrew. Then use `pip3` to install the backoff, requests, and bs4 modules.
 
 ## From the command line ##
 Documents are retrieved using their unique ark (archival resource key) ID. Each digitized document at ANOM has an ark ID associated with it, e.g. by navigating to http://anom.archivesnationales.culture.gouv.fr/ark:/61561/ou533mgofje we find `ark:/61561/ou533mgofje` listed on the page (and also in the URL).
