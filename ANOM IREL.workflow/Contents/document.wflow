@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>428</string>
+	<string>444.4</string>
 	<key>AMApplicationVersion</key>
-	<string>2.7</string>
+	<string>2.8</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -123,7 +123,7 @@
 					<string>D1B8EFEA-1E28-44E1-99D2-B2AA0E68197C</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Set_Value_of_Variable</string>
+				<string>com.apple.Automator.SetValueofVariable</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -173,7 +173,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>705.000000:242.000000</string>
+				<string>309.000000:242.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Set Value of Variable.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -221,15 +221,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>function run(url, parameters) {	url = url.toString();	arkid = url.split("ark:");
-	if (arkid[1]) {		output = "ark:" + arkid[1];		return output;
-		}
-	else {
-		var app = Application.currentApplication();
-		app.includeStandardAdditions = true;
-		var dialogText = "This doesn't appear to be a valid archive dossier page";
-		app.displayDialog(dialogText);
-	}}</string>
+					<string>function run(url, parameters) {	url = url.toString();	arkid = url.split("ark:");	if (arkid[1]) {		output = "ark:" + arkid[1];		return output;		}	else {		var app = Application.currentApplication();		app.includeStandardAdditions = true;		var dialogText = "This doesn't appear to be a valid archive dossier page";		app.displayDialog(dialogText);	}}</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunJavaScript</string>
@@ -284,7 +276,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>705.000000:540.000000</string>
+				<string>309.000000:488.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run JavaScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -342,7 +334,7 @@
 					<string>B0ACE5F9-68AD-45CC-9BA0-315F946F701C</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Set_Value_of_Variable</string>
+				<string>com.apple.Automator.SetValueofVariable</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -392,7 +384,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>705.000000:646.000000</string>
+				<string>309.000000:594.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Set Value of Variable.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -495,7 +487,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>705.000000:884.000000</string>
+				<string>309.000000:832.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Specified Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -536,11 +528,9 @@
 				<dict>
 					<key>Container</key>
 					<string>List</string>
-					<key>Optional</key>
-					<true/>
 					<key>Types</key>
 					<array>
-						<string>com.apple.cocoa.string</string>
+						<string>*</string>
 					</array>
 				</dict>
 				<key>AMRequiredResources</key>
@@ -555,7 +545,7 @@
 					<string>B0ACE5F9-68AD-45CC-9BA0-315F946F701C</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Get_Value_of_Variable</string>
+				<string>com.apple.Automator.GetValueofVariable</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -605,7 +595,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>705.000000:987.000000</string>
+				<string>309.000000:935.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Value of Variable.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -662,7 +652,7 @@
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>export PATH=/usr/local/bin:$PATH
-python3 "$1" $3 "$2"</string>
+python3 "$1" $3 -d "$2"</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -775,7 +765,7 @@ python3 "$1" $3 "$2"</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>705.000000:1170.000000</string>
+				<string>309.000000:1118.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -785,47 +775,47 @@ python3 "$1" $3 "$2"</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>29B83277-FFB2-4F13-9BFF-E5247798C90F</key>
-		<dict>
-			<key>from</key>
-			<string>315CDF8F-20A4-473B-87E8-0E5D83873DAF - 315CDF8F-20A4-473B-87E8-0E5D83873DAF</string>
-			<key>to</key>
-			<string>0527CC13-D3BA-4504-9F79-658E74075893 - 0527CC13-D3BA-4504-9F79-658E74075893</string>
-		</dict>
-		<key>4636C8D4-48FB-42C2-9BE7-2AE050071EB3</key>
+		<key>1D6440EC-076C-4DF2-AA75-558ABD163BBA</key>
 		<dict>
 			<key>from</key>
 			<string>4399A1B8-F285-45D1-95CE-C05053426E62 - 4399A1B8-F285-45D1-95CE-C05053426E62</string>
 			<key>to</key>
 			<string>DC2C9888-8DC5-4425-8FAE-8A9106D230C9 - DC2C9888-8DC5-4425-8FAE-8A9106D230C9</string>
 		</dict>
-		<key>867D948C-CD92-4391-8550-7DBEF9EA7FCB</key>
-		<dict>
-			<key>from</key>
-			<string>F600822E-83BF-44B5-9FEE-22238DBBC177 - F600822E-83BF-44B5-9FEE-22238DBBC177</string>
-			<key>to</key>
-			<string>1551E49B-DAC9-4079-A2C6-BD045FA1A8B4 - 1551E49B-DAC9-4079-A2C6-BD045FA1A8B4</string>
-		</dict>
-		<key>9EA17BB5-FFC9-4997-ACF5-DB56491C8D1A</key>
+		<key>5560EBDA-3EFE-4126-B985-22D5D21E3CE0</key>
 		<dict>
 			<key>from</key>
 			<string>1551E49B-DAC9-4079-A2C6-BD045FA1A8B4 - 1551E49B-DAC9-4079-A2C6-BD045FA1A8B4</string>
 			<key>to</key>
 			<string>315CDF8F-20A4-473B-87E8-0E5D83873DAF - 315CDF8F-20A4-473B-87E8-0E5D83873DAF</string>
 		</dict>
-		<key>D73B50BF-762D-4AFB-8451-1F60F6E1713B</key>
+		<key>A4C2CF71-F44F-480C-9BA3-1C284E3F3A7B</key>
 		<dict>
 			<key>from</key>
-			<string>0527CC13-D3BA-4504-9F79-658E74075893 - 0527CC13-D3BA-4504-9F79-658E74075893</string>
+			<string>315CDF8F-20A4-473B-87E8-0E5D83873DAF - 315CDF8F-20A4-473B-87E8-0E5D83873DAF</string>
 			<key>to</key>
-			<string>527DC9C5-D3C8-4969-BDC0-26610C3A1C70 - 527DC9C5-D3C8-4969-BDC0-26610C3A1C70</string>
+			<string>0527CC13-D3BA-4504-9F79-658E74075893 - 0527CC13-D3BA-4504-9F79-658E74075893</string>
 		</dict>
-		<key>FF151906-546B-41D5-8ED2-A50561674A0E</key>
+		<key>B129284C-5DD5-49CE-B555-45A501B03DDE</key>
 		<dict>
 			<key>from</key>
 			<string>DC2C9888-8DC5-4425-8FAE-8A9106D230C9 - DC2C9888-8DC5-4425-8FAE-8A9106D230C9</string>
 			<key>to</key>
 			<string>F600822E-83BF-44B5-9FEE-22238DBBC177 - F600822E-83BF-44B5-9FEE-22238DBBC177</string>
+		</dict>
+		<key>E37BA282-74EE-4C08-B693-58F981E90597</key>
+		<dict>
+			<key>from</key>
+			<string>F600822E-83BF-44B5-9FEE-22238DBBC177 - F600822E-83BF-44B5-9FEE-22238DBBC177</string>
+			<key>to</key>
+			<string>1551E49B-DAC9-4079-A2C6-BD045FA1A8B4 - 1551E49B-DAC9-4079-A2C6-BD045FA1A8B4</string>
+		</dict>
+		<key>FAF510C6-BB2C-4B59-9AEB-4F58BA0EE047</key>
+		<dict>
+			<key>from</key>
+			<string>0527CC13-D3BA-4504-9F79-658E74075893 - 0527CC13-D3BA-4504-9F79-658E74075893</string>
+			<key>to</key>
+			<string>527DC9C5-D3C8-4969-BDC0-26610C3A1C70 - 527DC9C5-D3C8-4969-BDC0-26610C3A1C70</string>
 		</dict>
 	</dict>
 	<key>variables</key>
@@ -861,6 +851,44 @@ python3 "$1" $3 "$2"</string>
 			<string>com.apple.Automator.Variable.Storage</string>
 			<key>name</key>
 			<string>directory</string>
+		</dict>
+		<dict>
+			<key>UUID</key>
+			<string>E6134039-F4AB-4CB0-BCBC-F9D2CF48B1FF</string>
+			<key>identifier</key>
+			<string>com.apple.Automator.Variable.Storage</string>
+			<key>name</key>
+			<string>Storage</string>
+		</dict>
+		<dict>
+			<key>UUID</key>
+			<string>781A6539-EC72-4839-AFD3-5BD0BC873EB8</string>
+			<key>identifier</key>
+			<string>com.apple.Automator.Variable.Text</string>
+			<key>name</key>
+			<string>Text</string>
+			<key>value</key>
+			<string>Text</string>
+		</dict>
+		<dict>
+			<key>UUID</key>
+			<string>26DE5B88-61EB-4D03-ABCB-5900BD404649</string>
+			<key>identifier</key>
+			<string>com.apple.Automator.Variable.Text</string>
+			<key>name</key>
+			<string>Text 1</string>
+			<key>value</key>
+			<string>Text</string>
+		</dict>
+		<dict>
+			<key>UUID</key>
+			<string>30DDBCF4-770B-496D-A2B0-439E493ACDD5</string>
+			<key>identifier</key>
+			<string>com.apple.Automator.Variable.Text</string>
+			<key>name</key>
+			<string>Text 2</string>
+			<key>value</key>
+			<string>Text</string>
 		</dict>
 	</array>
 	<key>workflowMetaData</key>

@@ -4,16 +4,18 @@
 # Note: no longer requires ImageMagick with JP2 (jpeg 2000) support
 # DZI / OpenSeadragon logic based on https://github.com/lovasoa/dezoomify
 
-import os, math, binascii, argparse, backoff, requests, re, ast, json
-from urllib.parse import urlparse, quote
+import os, math, argparse, backoff, requests, re, ast, json, shlex
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 parser = argparse.ArgumentParser()
-parser.add_argument("arkid", default='test')
-parser.add_argument("directory", nargs='?', default=os.getcwd())
+parser.add_argument("arkid", help='an id from the Archives nationales d\'Outre mer, e.g. ark:/61561/zn401lfekemv')
+parser.add_argument("-f", dest='format', choices=['jpg', 'pdf'], default='pdf', help='save individual page images or a single PDF (default: pdf)')
+parser.add_argument("-d", dest='directory', default=os.getcwd(), help='path to the resulting output (default: current directory)')
 args = parser.parse_args()
 
 arkid = args.arkid
+outputformat = args.format
 directory = args.directory
 os.chdir(directory)
 
@@ -32,6 +34,7 @@ contentlink = soup.find('a', href=re.compile('^/osd/\?dossier='))
 dossier = contentlink.get('href')
 
 print ('Loading ' + arkid)
+print ('Output will be '+outputformat)
 newurl = baseurl+dossier
 soup = BeautifulSoup(get_url(newurl).text, "lxml")
 
@@ -106,7 +109,7 @@ for image in dzilist: # pull each image page
             f.write(response.content)
             f.close()
 
-            temptiles = temptiles + file + " "
+            temptiles = temptiles + shlex.quote(file) + " "
 
         jpgcommand += " -append \)"
 
@@ -116,10 +119,13 @@ for image in dzilist: # pull each image page
     os.system(jpgcommand) # pasting the tiles together and saving as a jpg
     print ('Cleaning up tiles')
     os.system('rm ' + temptiles) # removing temporary tile images
-    tempjpgs = tempjpgs + filename + " "
+    tempjpgs = tempjpgs + shlex.quote(filename) + " "
 
 pdfcommand += " \) " + "'" + pdfname + "'"
-print ('Saving images in a single PDF')
-os.system(pdfcommand) # embedding all jpgs into a single pdf
-print ('Cleaning up JPGs')
-os.system('rm ' + tempjpgs) # deleting the temporary jpgs
+
+if (outputformat=='pdf'):
+	print ('Saving images in a single PDF')
+	os.system(pdfcommand) # embedding all jpgs into a single pdf
+	os.system('rm ' + tempjpgs) # deleting the temporary jpgs
+	print ('Cleaning up JPGs')
+
