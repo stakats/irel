@@ -3,7 +3,7 @@ This code allows you to download digitized documents directly from the Archives 
 
 ## Requirements
 * Python 3
-  * required packages: backoff, requests, bs4
+  * required packages: backoff, bs4, lxml, requests
 * ImageMagick
 
 Mac users can install Python 3 and ImageMagick via homebrew. Then use `pip3` to install the backoff, requests, and bs4 modules.

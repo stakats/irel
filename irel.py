@@ -4,9 +4,12 @@
 # Note: no longer requires ImageMagick with JP2 (jpeg 2000) support
 # DZI / OpenSeadragon logic based on https://github.com/lovasoa/dezoomify
 
-import os, math, argparse, backoff, requests, re, ast, json, shlex
+import os, math, argparse, backoff, requests, re, ast, json, shlex, warnings
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
+
+from bs4.builder import XMLParsedAsHTMLWarning
+warnings.filterwarnings('ignore', category=XMLParsedAsHTMLWarning)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("arkid", help='an id from the Archives nationales d\'Outre mer, e.g. ark:/61561/zn401lfekemv')
@@ -25,36 +28,40 @@ os.chdir(directory)
 def get_url(url):
     return requests.get(url)
 
-baseurl = 'http://anom.archivesnationales.culture.gouv.fr'
+baseurl = 'https://web.archive.org/web/20200806133054/http://anom.archivesnationales.culture.gouv.fr'
 
 url = baseurl + '/' + arkid
 soup = BeautifulSoup(get_url(url).text, "lxml")
+contentlink = soup.find('a', href=re.compile(r'/web/\d+/http://.*?/osd/\?dossier='))
 
-contentlink = soup.find('a', href=re.compile('^/osd/\?dossier='))
 dossier = contentlink.get('href')
 
 print ('Loading ' + arkid)
 print ('Output will be '+outputformat)
-newurl = baseurl+dossier
+newurl = re.sub(r'^/web/\d+/', '', dossier)
 soup = BeautifulSoup(get_url(newurl).text, "lxml")
 
 pattern = re.compile(r'initViewer')
-script_tag = soup.find('script', text=pattern)
+script_tag = soup.find('script', string=pattern)
 
 dzilist = script_tag.contents[0]
+dzilist = dzilist.replace('\\/', '/')
 dzilist = dzilist.split('[', 1)[1].split(']')[0]
 dzilist = "["+dzilist+"]"
+
 dzilist = ast.literal_eval(dzilist)
 
 totalimages = len(dzilist)
 print ('Dossier contains ' + str(totalimages) + ' pages')
 
 # get all the image pages
-pdfcommand = 'convert \('
+pdfcommand = r'magick \('
 pdfname = url.split('ark:/61561/')[1] + ".pdf"
 
 i = 0
 tempjpgs = ""
+
+oldbaseurl = 'http://anom.archivesnationales.culture.gouv.fr'
 
 for image in dzilist: # pull each image page
 
@@ -62,7 +69,7 @@ for image in dzilist: # pull each image page
 
     image = '"'+image+'"'
     image = json.loads(image)
-    xmlrequest = baseurl + image
+    xmlrequest = oldbaseurl + image
     path = urlparse(xmlrequest).path
     path = os.path.dirname(path)
     soup = BeautifulSoup (get_url(xmlrequest).text, "lxml")
@@ -71,7 +78,7 @@ for image in dzilist: # pull each image page
     print ('Grabbing image ' + str(i) + ' of ' + str(totalimages))
 
     tileimg = soup.image
-    imgsize = soup.image.size
+    imgsize = tileimg.size
     imgformat = str(tileimg.get('format'))
     imgwidth = int(imgsize.get('width'))
     imgheight = int(imgsize.get('height'))
@@ -89,10 +96,10 @@ for image in dzilist: # pull each image page
     filename = os.path.basename(filename)
     filename = os.path.join(directory, filename)
 
-    jpgcommand = "convert -strip "
+    jpgcommand = r"magick "
 
     for x in range (tileswide): # download each tile image and build imagemagick command
-        jpgcommand += " \( "
+        jpgcommand += r" \( "
         for y in range (tileshigh):
             
             imgURL = tilebase + str(zoom) + '/' + str(x) + '_' + str(y) + '.' + imgformat
@@ -101,7 +108,7 @@ for image in dzilist: # pull each image page
             file = os.path.basename(file)
             file = os.path.join(directory, file)
 
-            jpgcommand += " \( " + "'" + file + "'" + " -shave "+str(overlap)+"x"+str(overlap)+" \)"
+            jpgcommand += r" \( " + "'" + file + "'" + " -strip -shave "+str(overlap)+"x"+str(overlap)+r" \)"
 
             response = get_url(imgURL)
 
@@ -111,7 +118,7 @@ for image in dzilist: # pull each image page
 
             temptiles = temptiles + shlex.quote(file) + " "
 
-        jpgcommand += " -append \)"
+        jpgcommand += r" -append \)"
 
     print ("Combining tiles and saving as a temporary JPG")
     jpgcommand += " +append " + "'" + os.path.join(directory, filename) + "'"
@@ -121,11 +128,10 @@ for image in dzilist: # pull each image page
     os.system('rm ' + temptiles) # removing temporary tile images
     tempjpgs = tempjpgs + shlex.quote(filename) + " "
 
-pdfcommand += " \) " + "'" + pdfname + "'"
+pdfcommand += r" \) " + "'" + pdfname + "'"
 
 if (outputformat=='pdf'):
 	print ('Saving images in a single PDF')
 	os.system(pdfcommand) # embedding all jpgs into a single pdf
 	os.system('rm ' + tempjpgs) # deleting the temporary jpgs
 	print ('Cleaning up JPGs')
-
